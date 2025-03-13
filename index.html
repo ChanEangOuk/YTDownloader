@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Video Downloader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+    .success {
+      color: green;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>YouTube Video Downloader</h1>
+  <input type="text" id="videoUrl" placeholder="Enter YouTube video URL" />
+  <button onclick="downloadVideo()">Download Video</button>
+  <div id="message"></div>
+</div>
+
+<script>
+  function downloadVideo() {
+    const videoUrl = document.getElementById('videoUrl').value.trim();
+    const messageDiv = document.getElementById('message');
+
+    // Clear previous messages
+    messageDiv.innerHTML = '';
+
+    if (!videoUrl) {
+      messageDiv.innerHTML = '<p class="error">Please enter a valid YouTube video URL.</p>';
+      return;
+    }
+
+    // Simulate fetching video details (replace this with actual logic)
+    fetch('https://api.example.com/get-video-details', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: videoUrl })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Invalid YouTube URL or unable to process.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.error) {
+        messageDiv.innerHTML = `<p class="error">${data.error}</p>`;
+      } else {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = data.downloadUrl; // Replace with actual download URL
+        downloadLink.download = data.title + '.mp4'; // Replace with actual title
+        downloadLink.textContent = 'Click here to download the video';
+        messageDiv.innerHTML = '<p class="success">Video ready to download!</p>';
+        messageDiv.appendChild(downloadLink);
+      }
+    })
+    .catch(error => {
+      messageDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+    });
+  }
+</script>
+
+</body>
+</html>
