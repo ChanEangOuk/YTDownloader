@@ -74,7 +74,7 @@
     // Clear previous messages
     messageDiv.innerHTML = '';
 
-    if (!videoUrl) {
+    if (!videoUrl || !isValidYoutubeUrl(videoUrl)) {
       messageDiv.innerHTML = '<p class="error">Please enter a valid YouTube video URL.</p>';
       return;
     }
@@ -97,6 +97,11 @@
         messageDiv.appendChild(downloadLink);
       }
     }, 1000); // Simulate a delay of 1 second
+  }
+
+  function isValidYoutubeUrl(url) {
+    const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[\w\-]+\?v=|embed\/|v\/)|youtu\.be\/)([\w\-]+)(?:\S+)?$/;
+    return regex.test(url);
   }
 </script>
 
