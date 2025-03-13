@@ -79,33 +79,24 @@
       return;
     }
 
-    // Simulate fetching video details (replace this with actual logic)
-    fetch('https://api.example.com/get-video-details', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: videoUrl })
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Invalid YouTube URL or unable to process.');
-      }
-      return response.json();
-    })
-    .then(data => {
-      if (data.error) {
-        messageDiv.innerHTML = `<p class="error">${data.error}</p>`;
+    // Mock API response
+    const mockResponse = {
+      title: 'Sample Video Title',
+      downloadUrl: 'https://example.com/sample-video.mp4'
+    };
+
+    setTimeout(() => {
+      if (mockResponse.error) {
+        messageDiv.innerHTML = `<p class="error">${mockResponse.error}</p>`;
       } else {
         const downloadLink = document.createElement('a');
-        downloadLink.href = data.downloadUrl; // Replace with actual download URL
-        downloadLink.download = data.title + '.mp4'; // Replace with actual title
+        downloadLink.href = mockResponse.downloadUrl; // Replace with actual download URL
+        downloadLink.download = mockResponse.title + '.mp4'; // Replace with actual title
         downloadLink.textContent = 'Click here to download the video';
         messageDiv.innerHTML = '<p class="success">Video ready to download!</p>';
         messageDiv.appendChild(downloadLink);
       }
-    })
-    .catch(error => {
-      messageDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
-    });
+    }, 1000); // Simulate a delay of 1 second
   }
 </script>
 
